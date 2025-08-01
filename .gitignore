@@ -1,0 +1,92 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data files
+data/sample_data/*.json
+data/geographic_data/*
+data/satellite_images/*
+!data/sample_data/.gitkeep
+!data/geographic_data/.gitkeep
+!data/satellite_images/.gitkeep
+
+# Database
+chroma_db/
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp_*
+
+# Streamlit
+.streamlit/
+
+# Model files
+*.pkl
+*.pickle
+*.joblib
+
+# Satellite imagery
+*.tif
+*.tiff
+*.jpg
+*.jpeg
+*.png 

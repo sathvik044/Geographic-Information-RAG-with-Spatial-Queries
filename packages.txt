@@ -1,0 +1,7 @@
+# System packages required for geospatial libraries
+gdal-bin
+libgdal-dev
+proj-bin
+libproj-dev
+geos-bin
+libgeos-dev 
