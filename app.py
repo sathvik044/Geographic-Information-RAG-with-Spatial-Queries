@@ -6,10 +6,19 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import sys
+import traceback
 
-# Import our RAG system
-from src.rag_engine import GeographicRAGEngine
-from src.utils import create_spatial_query_examples
+# Add error handling for imports
+try:
+    # Import our RAG system
+    from src.rag_engine import GeographicRAGEngine
+    from src.utils import create_spatial_query_examples
+    RAG_AVAILABLE = True
+except ImportError as e:
+    st.error(f"Error importing RAG system: {e}")
+    st.code(traceback.format_exc())
+    RAG_AVAILABLE = False
 
 # Page configuration
 st.set_page_config(
@@ -21,9 +30,17 @@ st.set_page_config(
 @st.cache_resource
 def initialize_rag_engine():
     """Initialize the RAG engine with caching."""
-    engine = GeographicRAGEngine()
-    engine.load_sample_data()
-    return engine
+    if not RAG_AVAILABLE:
+        return None
+    
+    try:
+        engine = GeographicRAGEngine()
+        engine.load_sample_data()
+        return engine
+    except Exception as e:
+        st.error(f"Error initializing RAG engine: {e}")
+        st.code(traceback.format_exc())
+        return None
 
 def main():
     """Main application function."""
@@ -32,9 +49,19 @@ def main():
     st.title("🌍 Geographic Information RAG System")
     st.markdown("Advanced spatial query processing with satellite imagery analysis and geographic data fusion")
     
+    # Check if RAG system is available
+    if not RAG_AVAILABLE:
+        st.error("❌ RAG system components are not available. Please check the deployment logs.")
+        st.info("This might be due to missing dependencies or system requirements.")
+        return
+    
     # Initialize RAG engine
     with st.spinner("Initializing Geographic RAG Engine..."):
         rag_engine = initialize_rag_engine()
+    
+    if rag_engine is None:
+        st.error("❌ Failed to initialize RAG engine. Please check the deployment logs.")
+        return
     
     # Sidebar navigation
     st.sidebar.title("Navigation")

@@ -24,9 +24,30 @@ Your Geographic Information RAG System needs to be publicly accessible. Here are
 - Your app will be available at: `https://your-app-name-your-username.streamlit.app`
 - This is your **public link** for submission
 
-## Option 2: Hugging Face Spaces (Alternative - Free)
+## 🔧 Troubleshooting Deployment Issues
 
-### Step 1: Create a Space
+### If you get "Error installing requirements":
+
+**Option A: Use the fallback app**
+1. In Streamlit Cloud, change the main file path to: `app-fallback.py`
+2. This version works with minimal dependencies
+
+**Option B: Use simplified requirements**
+1. Rename `requirements-cloud.txt` to `requirements.txt`
+2. This removes problematic geospatial dependencies
+
+**Option C: Manual dependency fix**
+1. Go to "Manage App" in Streamlit Cloud
+2. Check the terminal logs for specific error messages
+3. Common issues:
+   - GDAL/geospatial libraries not available
+   - Memory limits exceeded
+   - Python version conflicts
+
+### Alternative: Hugging Face Spaces (More Reliable)
+
+If Streamlit Cloud continues to have issues:
+
 1. Go to [huggingface.co/spaces](https://huggingface.co/spaces)
 2. Click "Create new Space"
 3. Choose settings:
@@ -35,21 +56,16 @@ Your Geographic Information RAG System needs to be publicly accessible. Here are
    - **License**: MIT
    - **SDK**: Streamlit
    - **Python version**: 3.9
-
-### Step 2: Upload Files
-1. Upload all your project files
-2. Make sure `app.py` is in the root directory
-3. The app will auto-deploy
-
-### Step 3: Get Your Public Link
-- Your app will be at: `https://huggingface.co/spaces/your-username/geograph-rag`
-- This is your **public link** for submission
+4. Upload your files
+5. Use `app-fallback.py` as the main file
 
 ## Files Ready for Deployment
 
 ✅ **All necessary files are prepared:**
-- `app.py` - Main Streamlit application
+- `app.py` - Main Streamlit application (with error handling)
+- `app-fallback.py` - Fallback demo version (minimal dependencies)
 - `requirements.txt` - Python dependencies
+- `requirements-cloud.txt` - Simplified dependencies
 - `packages.txt` - System dependencies
 - `.streamlit/config.toml` - Streamlit configuration
 - `README.md` - Project documentation
@@ -74,9 +90,10 @@ After deployment, test these features:
 
 If you encounter issues:
 1. Check the deployment logs
-2. Verify all dependencies are in `requirements.txt`
-3. Ensure `app.py` is the main file
-4. Test locally first with `streamlit run app.py`
+2. Try the fallback app (`app-fallback.py`)
+3. Use simplified requirements (`requirements-cloud.txt`)
+4. Consider Hugging Face Spaces as alternative
+5. Test locally first with `streamlit run app.py`
 
 ---
 

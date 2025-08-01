@@ -4,4 +4,5 @@ libgdal-dev
 proj-bin
 libproj-dev
 geos-bin
-libgeos-dev 
+libgeos-dev
+libspatialindex-dev 
