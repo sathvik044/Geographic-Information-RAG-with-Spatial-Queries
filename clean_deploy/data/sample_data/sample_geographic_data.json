@@ -1,0 +1,76 @@
+{
+  "cities": [
+    {
+      "name": "New York",
+      "coordinates": [
+        -74.006,
+        40.7128
+      ],
+      "population": 8336817,
+      "area_km2": 778.2,
+      "description": "Largest city in the United States, major financial center"
+    },
+    {
+      "name": "London",
+      "coordinates": [
+        -0.1276,
+        51.5074
+      ],
+      "population": 8982000,
+      "area_km2": 1572,
+      "description": "Capital of England, major global city"
+    },
+    {
+      "name": "Tokyo",
+      "coordinates": [
+        139.6917,
+        35.6895
+      ],
+      "population": 13929286,
+      "area_km2": 2194,
+      "description": "Capital of Japan, largest metropolitan area in the world"
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Eiffel Tower",
+      "coordinates": [
+        2.2945,
+        48.8584
+      ],
+      "type": "monument",
+      "description": "Iconic iron lattice tower in Paris, France"
+    },
+    {
+      "name": "Statue of Liberty",
+      "coordinates": [
+        -74.0445,
+        40.6892
+      ],
+      "type": "monument",
+      "description": "Famous statue in New York Harbor"
+    }
+  ],
+  "natural_features": [
+    {
+      "name": "Mount Everest",
+      "coordinates": [
+        86.925,
+        27.9881
+      ],
+      "type": "mountain",
+      "elevation_m": 8848,
+      "description": "Highest peak in the world"
+    },
+    {
+      "name": "Amazon River",
+      "coordinates": [
+        -58.3816,
+        -3.4653
+      ],
+      "type": "river",
+      "length_km": 6575,
+      "description": "Largest river by discharge volume"
+    }
+  ]
+}

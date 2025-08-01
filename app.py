@@ -245,7 +245,7 @@ def show_statistics_page(rag_engine):
         df_history = pd.DataFrame(rag_engine.query_history)
         df_history['timestamp'] = pd.to_datetime(df_history['timestamp'])
         
-        # Query results over time
+        # Query results over time   
         st.line_chart(df_history.set_index('timestamp')['results_count'])
         
         # Query type distribution
