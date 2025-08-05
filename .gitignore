@@ -48,6 +48,15 @@ data/satellite_images/*
 
 # Database
 chroma_db/
+
+# Deployment artifacts
+.streamlit/secrets.toml
+.dist/
+.dist.zip
+
+# Logs
+logs/
+*.log
 *.db
 *.sqlite
 
@@ -89,4 +98,4 @@ temp_*
 *.tiff
 *.jpg
 *.jpeg
-*.png 
+*.png

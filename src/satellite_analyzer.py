@@ -25,8 +25,15 @@ class SatelliteAnalyzer:
     
     def __init__(self):
         """Initialize the satellite analyzer."""
+        # Use minimal initialization for cloud deployment
         self.satellite_data = {}
         self.analysis_results = {}
+        
+        # Disable unnecessary matplotlib features to reduce memory usage
+        import matplotlib
+        matplotlib.use('Agg')  # Use non-interactive backend
+        plt.rcParams['figure.max_open_warning'] = 10  # Reduce max figure warning
+        plt.rcParams['figure.dpi'] = 72  # Lower DPI for memory savings
         
     def load_satellite_image(self, filepath: str, 
                            image_name: str = "default") -> Dict[str, Any]:
@@ -499,4 +506,4 @@ class SatelliteAnalyzer:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
             logger.info(f"Visualization saved to {save_path}")
         
-        plt.show() 
+        plt.show()

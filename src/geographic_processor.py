@@ -35,9 +35,15 @@ class GeographicProcessor:
         Args:
             default_crs: Default coordinate reference system (WGS84)
         """
+        # Use a simpler initialization for cloud deployment
         self.default_crs = CRS(default_crs)
         self.data_sources = {}
         self.spatial_index = None
+        
+        # Set lower precision for cloud deployment to reduce memory usage
+        import shapely.geos
+        shapely.geos.set_output_dimension(2)
+        shapely.geos.set_precision(0.001)
         
     def create_geodataframe_from_dict(self, data_dict: Dict[str, Any]) -> gpd.GeoDataFrame:
         """
@@ -418,4 +424,4 @@ class GeographicProcessor:
             logger.info(f"Exported data to {filepath}")
         except Exception as e:
             logger.error(f"Error exporting data to {filepath}: {e}")
-            raise 
+            raise

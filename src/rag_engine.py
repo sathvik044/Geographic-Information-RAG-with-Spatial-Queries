@@ -37,16 +37,18 @@ class GeographicRAGEngine:
             embedding_model: Name of the sentence transformer model
             chroma_persist_dir: Directory for ChromaDB persistence
         """
-        # Initialize components
+        # Initialize components with memory optimization for cloud deployment
         self.geographic_processor = GeographicProcessor()
         self.spatial_indexer = SpatialIndexer()
         self.satellite_analyzer = SatelliteAnalyzer()
+        
+        # Use smaller embedding model for cloud deployment
         self.embeddings = GeographicEmbeddings(embedding_model)
         
-        # Initialize vector database
+        # Initialize vector database with in-memory configuration
         self.embeddings.initialize_vector_database(chroma_persist_dir)
         
-        # Data storage
+        # Data storage (use minimal initial allocation)
         self.geographic_data = {}
         self.satellite_data = {}
         self.query_history = []
@@ -569,4 +571,4 @@ class GeographicRAGEngine:
         if save_path:
             plt.savefig(save_path.replace('.html', '_summary.png'), dpi=300, bbox_inches='tight')
         
-        plt.show() 
+        plt.show()

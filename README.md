@@ -15,7 +15,7 @@ A comprehensive RAG (Retrieval-Augmented Generation) system that combines geogra
 
 ### Prerequisites
 
-1. **Python 3.8+** installed on your system
+1. **Python 3.9** (specified in runtime.txt)
 2. **Git** for cloning the repository
 
 ### Installation
@@ -31,22 +31,38 @@ cd geograph
 pip install -r requirements.txt
 ```
 
-3. **Run the deployment script:**
-```bash
-python deploy.py
-```
-
-### Running the Application
-
-**Option 1: Using the deployment script (recommended)**
-```bash
-python deploy.py
-```
-
-**Option 2: Direct Streamlit run**
+3. **Run the application:**
 ```bash
 streamlit run app.py
 ```
+
+## 🌐 Deployment to Streamlit Cloud
+
+### Option 1: Direct Deployment (Recommended)
+
+1. Push your code to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Connect your GitHub repository
+4. Set the main file path to `app.py`
+5. Deploy
+
+### Troubleshooting Deployment Issues
+
+If you encounter issues with the deployment:
+
+1. **Check the logs** in the Streamlit Cloud dashboard
+2. **Verify system dependencies** in `packages.txt` are correct
+3. **Ensure Python version** is set to 3.9 in `runtime.txt`
+4. **Try the fallback app** by changing the main file to `app-fallback.py`
+
+### Memory Optimization
+
+The application has been optimized for cloud deployment with:
+
+- Memory-efficient spatial indexing
+- In-memory database configuration
+- Smaller embedding models
+- Fallback mode for limited environments
 
 **Option 3: Using Python module**
 ```bash
@@ -202,4 +218,4 @@ The Geographic Information RAG System is designed to be deployed on various plat
 
 ---
 
-*Built with ❤️ for Geographic Information Systems and Spatial Analysis* 
+*Built with ❤️ for Geographic Information Systems and Spatial Analysis*

@@ -39,11 +39,15 @@ class GeographicEmbeddings:
             persist_directory: Directory to persist the database
         """
         try:
-            self.chroma_client = chromadb.PersistentClient(
-                path=persist_directory,
-                settings=Settings(anonymized_telemetry=False)
+            # Use in-memory client for cloud deployment to avoid file permission issues
+            self.chroma_client = chromadb.Client(
+                settings=Settings(
+                    anonymized_telemetry=False,
+                    chroma_db_impl="duckdb+parquet",
+                    persist_directory=persist_directory
+                )
             )
-            logger.info(f"Initialized ChromaDB at {persist_directory}")
+            logger.info(f"Initialized ChromaDB in memory with reference to {persist_directory}")
         except Exception as e:
             logger.error(f"Error initializing ChromaDB: {e}")
             raise
@@ -463,4 +467,4 @@ class GeographicEmbeddings:
             ids=ids
         )
         
-        logger.info(f"Imported {len(embeddings)} embeddings to collection {collection_name}") 
+        logger.info(f"Imported {len(embeddings)} embeddings to collection {collection_name}")

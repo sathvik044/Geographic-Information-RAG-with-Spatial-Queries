@@ -37,16 +37,22 @@ class SpatialIndexer:
             index_name: Name for the spatial index
         """
         try:
-            # Create R-tree spatial index
-            idx = index.Index()
+            # Create R-tree spatial index with memory-optimized properties
+            p = rtree.index.Property()
+            p.dimension = 2
+            p.leaf_capacity = 100
+            p.fill_factor = 0.7
+            idx = index.Index(properties=p)
             
-            # Add geometries to the index
-            for i, geometry in enumerate(gdf.geometry):
+            # Add geometries to the index (limit to first 1000 for cloud deployment)
+            max_features = min(1000, len(gdf))
+            for i, geometry in enumerate(gdf.geometry[:max_features]):
                 if geometry is not None and geometry.is_valid:
                     bounds = geometry.bounds
                     idx.insert(i, bounds)
             
             self.spatial_index = idx
+            # Store a reference to the dataframe without copying
             self.geodataframes[index_name] = gdf
             self.indexed_features[index_name] = list(range(len(gdf)))
             
@@ -360,4 +366,4 @@ class SpatialIndexer:
             'indexed': index_name in self.indexed_features
         }
         
-        return stats 
+        return stats

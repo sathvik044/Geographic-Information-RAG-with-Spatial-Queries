@@ -27,14 +27,15 @@ st.set_page_config(
     layout="wide"
 )
 
-@st.cache_resource
+@st.cache_resource(ttl=3600)
 def initialize_rag_engine():
     """Initialize the RAG engine with caching."""
     if not RAG_AVAILABLE:
         return None
     
     try:
-        engine = GeographicRAGEngine()
+        # Use a smaller embedding model for cloud deployment
+        engine = GeographicRAGEngine(embedding_model="paraphrase-MiniLM-L3-v2")
         engine.load_sample_data()
         return engine
     except Exception as e:
@@ -51,16 +52,24 @@ def main():
     
     # Check if RAG system is available
     if not RAG_AVAILABLE:
-        st.error("❌ RAG system components are not available. Please check the deployment logs.")
-        st.info("This might be due to missing dependencies or system requirements.")
+        st.error("❌ RAG system components are not available. Switching to fallback mode.")
+        st.info("This is a simplified version with limited functionality.")
+        show_fallback_mode()
         return
     
-    # Initialize RAG engine
-    with st.spinner("Initializing Geographic RAG Engine..."):
-        rag_engine = initialize_rag_engine()
-    
-    if rag_engine is None:
-        st.error("❌ Failed to initialize RAG engine. Please check the deployment logs.")
+    # Initialize RAG engine with error handling
+    try:
+        with st.spinner("Initializing Geographic RAG Engine..."):
+            rag_engine = initialize_rag_engine()
+        
+        if rag_engine is None:
+            st.error("❌ Failed to initialize RAG engine. Switching to fallback mode.")
+            show_fallback_mode()
+            return
+    except Exception as e:
+        st.error(f"❌ Error during initialization: {e}")
+        st.info("Switching to fallback mode with limited functionality.")
+        show_fallback_mode()
         return
     
     # Sidebar navigation
@@ -201,6 +210,64 @@ def show_spatial_queries_page(rag_engine):
         else:
             st.warning("Please enter a query.")
 
+def show_fallback_mode():
+    """Display a simplified fallback mode when the full system can't be initialized."""
+    
+    # Create demo data for the fallback mode
+    def create_demo_data():
+        return pd.DataFrame({
+            'name': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'],
+            'latitude': [40.7128, 34.0522, 41.8781, 29.7604, 33.4484],
+            'longitude': [-74.0060, -118.2437, -87.6298, -95.3698, -112.0740],
+            'population': [8336817, 3979576, 2693976, 2320268, 1680992],
+            'description': [
+                'The Big Apple - Financial and cultural center',
+                'City of Angels - Entertainment and technology hub',
+                'Windy City - Transportation and business center',
+                'Space City - Energy and aerospace industry',
+                'Valley of the Sun - Technology and tourism'
+            ]
+        })
+    
+    # Demo mode indicator
+    st.info("🔄 Running in Demo Mode - Full RAG system will be available after deployment optimization")
+    
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    page = st.sidebar.selectbox(
+        "Choose a page:",
+        ["🏠 Home", "🔍 Sample Queries", "📊 Demo Data"]
+    )
+    
+    # Page routing for fallback mode
+    if page == "🏠 Home":
+        st.header("System Overview")
+        st.write("This is a simplified demo version of the Geographic Information RAG System.")
+        st.write("The full system with advanced spatial querying and satellite imagery analysis will be available after deployment optimization.")
+        
+    elif page == "🔍 Sample Queries":
+        st.header("Sample Spatial Queries")
+        st.write("Here are some examples of the types of queries the full system can handle:")
+        
+        queries = [
+            "Find all cities within 100 miles of Chicago",
+            "What is the population density of Los Angeles?",
+            "Show satellite imagery of Houston from the last 3 months",
+            "Compare the urban development of New York and Phoenix"
+        ]
+        
+        for query in queries:
+            st.markdown(f"- {query}")
+            
+    elif page == "📊 Demo Data":
+        st.header("Sample Geographic Data")
+        demo_data = create_demo_data()
+        st.dataframe(demo_data)
+        
+        # Simple map visualization
+        st.subheader("City Locations")
+        st.map(demo_data)
+
 def show_statistics_page(rag_engine):
     """Display the system statistics page."""
     
@@ -260,4 +327,4 @@ def show_statistics_page(rag_engine):
         st.bar_chart(chart_data.set_index('Query Type'))
 
 if __name__ == "__main__":
-    main() 
+    main()
